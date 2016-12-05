@@ -289,6 +289,10 @@ analyze_hbond_nit(){
 
 force_calc(){
     printf "\n\t\tCalculating force:\n" 
+    if [[ ! -f force_calc/$MOLEC.solvent_rxn_field.projected.xvg || ! -f force_calc/$MOLEC.external_field.projected.xvg || ! -f force_calc/$MOLEC.total_field.xvg ]] ; then 
+        printf "One of the fields not found!" 
+        exit 
+
     if [ ! -f $FORCE_TOOLS/g_insert_dummy_atom ] ; then 
         printf "\t\t\tERROR: Force tools not found. Skipping force calc\n" 
         return  
@@ -402,6 +406,10 @@ force_calc(){
     cd ../Production/
     clean
     cd ../
+    
+    else 
+        printf "\t\t\t\t  ............Skipped\n" 
+        fi 
     printf "\n" 
 }
 
