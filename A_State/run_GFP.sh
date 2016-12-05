@@ -243,6 +243,50 @@ analyze_hbond(){
     cd ../
 } 
 
+analyze_hbond_nit(){
+    printf "\t\tAnaylzing HBond_nit content..."
+    if [ ! -s HBond_nit/$MOLEC.hb_count.xvg ] ; then 
+        create_dir HBond_nit
+        cd HBond_nit
+
+    if [ ! -d ../Production/amber03.ff ] ; then 
+        cp $FF/*.dat ../Production/. 
+        cp -r $FF/amber03.ff ../Production/.
+        fi 
+    check ../Production/amber03.ff/forcefield.itp 
+
+        ## We use veriosn 4.6 of Gromacs for this grompp command, because g_insert_dummy is written for version 4.6
+        ## We allow for warnings, since we are generated .tpr from a gromacs 5 mdp file. We are only inserting
+        ## atoms this should not matter. 
+        if [ ! -f $MOLEC.production.v4.tpr ] ; then 
+            grompp -f $MDP/production_gfp.mdp -o $MOLEC.production.v4.tpr -p ../Production/$MOLEC.neutral.top -c ../Production/$MOLEC.npt_relax.gro -maxwarn 3 >> $logFile 2>> $errFile 
+            fi
+        check $MOLEC.production.v4.tpr 
+    
+        CT=`grep CNF ../Production/$MOLEC.production.nopbc.gro | grep CT | awk '{print $3}'`
+        NH=`grep CNF ../Production/$MOLEC.production.nopbc.gro | grep NH | awk '{print $3}'`
+        #echo $CT $NH
+        
+        if [ ! -s $MOLEC.hb_count.xvg ] ; then  
+            $HOME/andrews_gmx/g_nitrile_hbond/g_nitrile_hbond \
+                -s $MOLEC.production.v4.tpr \
+                -f ../Production/$MOLEC.production.nopbc.xtc \
+                -a1 $CT -a2 $NH \
+                -select "resname SOL and same residue as within 0.5 of resname CNF and name NH" \
+                -o $MOLEC.frame_hb.xvg -op $MOLEC.persistent.xvg \
+                -oa $MOLEC.hb_count.xvg -or $MOLEC.geometry.xvg  >> $logFile 2>> $errFile
+            check $MOLEC.hb_count.xvg $MOLEC.geometry.xvg $MOLEC.persistent.xvg $MOLEC.frame_hb.xvg 
+        fi 
+        
+        check $MOLEC.hb_count.xvg 
+        printf "Success\n" 
+        cd ../
+    else 
+        printf "Skipped\n" 
+        fi 
+    check HBond_nit/$MOLEC.hb_count.xvg 
+}
+
 force_calc(){
     printf "\n\t\tCalculating force:\n" 
     if [ ! -f $FORCE_TOOLS/g_insert_dummy_atom ] ; then 
@@ -358,30 +402,7 @@ force_calc(){
     cd ../Production/
     clean
     cd ../
-}
-
-calc_dist_203_CRO(){
-    if [ ! -d dist_CNF_CRO ] ; then mkdir dist_CNF_CRO ; fi 
-    cd dist_CNF_CRO 
-    
-    if [ ! -f $MOLEC.dist_CNF_CRO.xvg ] ; then 
-        gmx distance -s ../Production/$MOLEC.production.tpr -f ../Production/$MOLEC.production.nopbc.xtc  -select 'com of resname CNF plus (resname CROn and name OH)' -oall $MOLEC.dist_CNF_CRO.xvg >> $logFile 2>> $errFile 
-    fi 
-    check $MOLEC.dist_CNF_CRO.xvg
-
-    cd ../
-}
-
-calc_dist_CNF_CRO(){
-    if [ ! -d dist_CNF_CRO ] ; then mkdir dist_CNF_CRO ; fi 
-    cd dist_CNF_CRO 
-    
-    if [ ! -f $MOLEC.dist_CNF_CRO.xvg ] ; then 
-        gmx distance -s ../Production/$MOLEC.production.tpr -f ../Production/$MOLEC.production.nopbc.xtc  -select 'com of resname CNF plus (resname CROn and name OH)' -oall $MOLEC.dist_CNF_CRO.xvg >> $logFile 2>> $errFile 
-    fi 
-    check $MOLEC.dist_CNF_CRO.xvg
-
-    cd ../
+    printf "\n" 
 }
 
 printf "\n\t\t*** Program Beginning $MOLEC***\n\n" 
@@ -392,10 +413,9 @@ solvent_min
 production_run 
 if grep -sq CNF Production/$MOLEC.production.nopbc.gro ; then 
     force_calc
-    calc_dist_CNF_CRO
+    analyze_hbond_nit
     fi 
 analyze_hbond
-calc_dist_203_CRO
 cd ../
 
 printf "\n\n\t\t*** Program Ending  $MOLEC***\n\n" 
