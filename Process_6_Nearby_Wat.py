@@ -21,28 +21,28 @@ for item in fileList :
 exp_pKas= {
 'CN145_T203C':7.86, 
 'CN145_T203D':11.0, 
-'CN145_T203F':7.35, 
+'CN145_T203F':7.20, 
 'CN145_T203H':6.28, 
 'CN145_T203N':7.22, 
-'CN145_T203S':6.87, 
+'CN145_T203S':6.88, 
 'CN145_T203W':'NA', 
-'CN145_T203Y':8.04,
-'CN145_WT':6.84, 
-'CN165_T203C':7.60, 
+'CN145_T203Y':7.95,
+'CN145_WT':6.88, 
+'CN165_T203C':7.65, 
 'CN165_T203D':11.0, 
-'CN165_T203F':7.52, 
-'CN165_T203H':6.66, 
-'CN165_T203N':7.43, 
+'CN165_T203F':7.51, 
+'CN165_T203H':6.77, 
+'CN165_T203N':7.42, 
 'CN165_T203S':6.73, 
 'CN165_T203W':'NA', 
 'CN165_T203Y':7.95,
-'CN165_WT':7.20, 
+'CN165_WT':6.73, 
 'GFP_WT_T203C':6.85, 
 'GFP_WT_T203D':11.0, 
-'GFP_WT_T203F':7.51, 
+'GFP_WT_T203F':7.50, 
 'GFP_WT_T203H':6.54, 
 'GFP_WT_T203N':7.11, 
-'GFP_WT_T203S':6.50, 
+'GFP_WT_T203S':6.48, 
 'GFP_WT_T203W':'NA', 
 'GFP_WT_T203Y':7.95,
 'GFP_WT':6.70} 
@@ -194,7 +194,7 @@ mn, mx = ax1.get_ylim()
 ax12.set_ylim((mn-8.2)*2.5*2.303, (mx-8.2)*2.5*2.303) 
 ax12.set_ylabel('ddG (kJ/mol)') 
 
-ax1.legend(loc=2) 
+ax1.legend(loc=4) 
 fig1.savefig('6_Nearby_Wat_pKa.pdf', format='pdf') 
 
 fig2 = plt.figure() 
