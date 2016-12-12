@@ -156,7 +156,7 @@ CN165 = np.array(CN165)
 x = np.arange(min(CN145[:,0]), max(CN145[:,0]),0.001 ) 
 slope, intercept, r_value, p_value, std_error = linregress(CN145[:,0],CN145[:,1]) 
 ax1.plot(x,x*slope + intercept,label="r = %.3f"%r_value) 
-ax1.legend(loc=0) 
+ax1.legend(loc=4) 
 #fig1.savefig('CN145.pdf',format='pdf') 
 
 x = np.arange(min(CN165[:,0]), max(CN165[:,0]),0.001)  
