@@ -6,8 +6,10 @@ from sys import exit
 
 from matplotlib import rc_file
 
-if not os.path.isdir('pKas') : 
-    print "pKas directory not found. exitting" 
+dirName='pKas'
+
+if not os.path.isdir(dirName) : 
+    print "%s directory not found. exitting"%dirName
     exit() 
 
 molecList=[
@@ -26,14 +28,16 @@ fig.text(0.5, 0.04, "Time (ns)", ha='center', va='center')
 fig.text(0.08, 0.50, "$\\frac{d}{dt}$pK$_a$ (ns$^{-1}$)", ha='center', va='center', rotation='vertical') 
 
 for index,molec in enumerate(molecList ) : 
-    print molec 
-    if os.path.isfile("pKas/%s_ddG_pKa.dat"%molec) : 
+    fileName="%s_ddG_pKa.dat"%molec 
+    print fileName
+
+    if os.path.isfile("%s/%s"%(dirName,fileName) ): 
         print "%s data file found"%molec 
     else : 
         print "%s NOT FOUND!"%molec
         continue 
 
-    data = np.genfromtxt("pKas/%s_ddG_pKa.dat"%molec) 
+    data = np.genfromtxt("%s/%s"%(dirName,fileName) ) 
 
     time = np.arange(0,50,50.0/len(data)) 
     print len(data) 
