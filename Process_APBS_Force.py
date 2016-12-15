@@ -79,7 +79,7 @@ for molec in range(numMols ) :
     except : 
         print molList[molec][1]
         continue
-    solventFieldA = np.average(rxn_fieldA[20:]) + np.average(coloumb_fieldB[20:]) 
+    solventFieldA = np.average(rxn_fieldA[20:]) + np.average(coloumb_fieldA[20:]) 
     solventFieldB = np.average(rxn_fieldB[20:]) + np.average(coloumb_fieldB[20:]) 
     data.append([molList[molec][1],solventFieldA, solventFieldB]) 
 
