@@ -79,8 +79,10 @@ for molec in range(numMols ) :
         continue
     solventFieldA = np.average(fieldA[2500:]) 
     solventFieldB = np.average(fieldB[2500:]) 
+    stdA = np.std(fieldA[2500:]) 
+    stdB = np.std(fieldB[2500:]) 
     
-    data.append([molList[molec][1],solventFieldA, solventFieldB]) 
+    data.append([molList[molec][1],solventFieldA, solventFieldB,stdA,stdB]) 
 
 for molec in data : 
     try : 

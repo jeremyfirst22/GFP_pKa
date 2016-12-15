@@ -18,33 +18,27 @@ else :
     os.chdir('cryst_2_pKas') 
 
 exp_pKas= {
-'CN145_T203C':7.86, 
-#'CN145_T203D':11.0, 
-'CN145_T203F':7.20, 
-'CN145_T203H':6.28, 
-'CN145_T203N':7.22, 
-'CN145_T203S':6.88, 
-#'CN145_T203W':'NA', 
-'CN145_T203Y':7.95,
-'CN145_WT':6.88, 
-'CN165_T203C':7.65, 
-#'CN165_T203D':11.0, 
-'CN165_T203F':7.51, 
-'CN165_T203H':6.77, 
-'CN165_T203N':7.42, 
-'CN165_T203S':6.73, 
-#'CN165_T203W':'NA', 
-'CN165_T203Y':7.95,
-'CN165_WT':6.73, 
-'GFP_WT_T203C':6.85, 
-#'GFP_WT_T203D':11.0, 
-'GFP_WT_T203F':7.50, 
-'GFP_WT_T203H':6.54, 
-'GFP_WT_T203N':7.11, 
-'GFP_WT_T203S':6.48, 
-#'GFP_WT_T203W':'NA', 
-'GFP_WT_T203Y':7.95,
-'GFP_WT':6.70} 
+'CN145_WT':    [6.63,0.04],
+'CN145_T203F': [7.20,0.04],
+'CN145_T203C': [7.86,0.04], 
+'CN145_T203H': [6.28,0.05], 
+'CN145_T203N': [7.22,0.04],
+'CN145_T203S': [6.88,0.07], 
+'CN145_T203Y': [7.95,0.04],
+'CN165_WT':    [7.17,0.03], 
+'CN165_T203F': [7.51,0.05], 
+'CN165_T203C': [7.65,0.04],  
+'CN165_T203H': [6.77,0.05], 
+'CN165_T203N': [7.42,0.06], 
+'CN165_T203S': [6.73,0.05], 
+'CN165_T203Y': [7.95,0.03], 
+'GFP_WT':      [6.70,0.07], 
+'GFP_WT_T203F':[7.50,0.03],
+'GFP_WT_T203C':[6.85,0.05],
+'GFP_WT_T203H':[6.54,0.03],
+'GFP_WT_T203N':[7.11,0.08],
+'GFP_WT_T203S':[6.48,0.07],
+'GFP_WT_T203Y':[7.95,0.04]}
 
 data = [] 
 for ddGfile in glob.glob('*.ddG') : 
@@ -56,7 +50,7 @@ for ddGfile in glob.glob('*.ddG') :
     dpKa +=8.2
 
     try : 
-        exp = float(exp_pKas[molec]) 
+        exp = float(exp_pKas[molec][0]) 
     except KeyError : 
         print "Warning! %s not found in exp_data!"%molec
         continue 
