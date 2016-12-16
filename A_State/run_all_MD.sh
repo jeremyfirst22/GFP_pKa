@@ -3,13 +3,16 @@
 ##T203R mutants removed since R doesn't form the chromophore.
 molecList="
 CN145_T203C     CN145_T203Y     CN165_T203S     GFP_WT_T203H
-CN145_T203D     CN145_WT        CN165_T203W     GFP_WT_T203N
+CN145_WT        GFP_WT_T203N
 CN145_T203F     CN165_T203C     CN165_T203Y     
-CN145_T203H     CN165_T203D     CN165_WT        GFP_WT_T203S
-CN145_T203N     CN165_T203F     GFP_WT          GFP_WT_T203W
+CN145_T203H     CN165_WT        GFP_WT_T203S
+CN145_T203N     CN165_T203F     GFP_WT          
 CN165_T203H     GFP_WT_T203C    GFP_WT_T203Y
-CN145_T203S     CN165_T203N     GFP_WT_T203D    
-CN145_T203W     GFP_WT_T203F"
+CN145_T203S     CN165_T203N     
+GFP_WT_T203F"
+#CN145_T203D     CN145_T203W     
+#CN165_T203D     CN165_T203W     
+#GFP_WT__T203D     GFP_WT_T203W     
 #CN145_T203B     CN145_T203X     CN145_T203Z
 #CN165_T203B     CN165_T203X     CN165_T203Z
 #GFP_WT_T203B    GFP_WT_T203X    GFP_WT_T203Z
@@ -47,9 +50,10 @@ for molec in $molecList ; do
     #time bash dG_transfer_calc_with_10_nearby.sh $molec
     #bash 6dG_transfer_calc.sh $molec
     #time bash force_calc_APBS.sh $molec
+    time bash force_calc_6_APBS.sh $molec
     #time bash force_calc_with_nearby_APBS.sh $molec
     #time bash dG_transfer_calc_with_nearby_lowE.sh $molec
     #time bash dG_transfer_calc_with_10_lowE.sh $molec
     #bash dG_transfer_calc_6.sh $molec
-    bash dG_transfer_calc_8_with_nearby_wat.sh $molec
+    #bash dG_transfer_calc_8_with_nearby_wat.sh $molec
     done 

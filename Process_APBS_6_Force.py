@@ -7,8 +7,8 @@ from scipy.stats import linregress
 
 from matplotlib import rc_file
 
-force_dir='APBS_nearby_wat_force'
-save_dir='force_calc_APBS_nearby'
+force_dir='APBS_6_force_calc'
+save_dir='force_calc_6_APBS' 
 
 force_files = glob.glob('[AB]_State/*/%s/coloumb_field.out'%force_dir) 
 
@@ -37,6 +37,7 @@ mutToExp = {
 'CN165_T203Y':2233.5,
 'CN165_WT':2234.4
 }
+
 mutExppKa={
     'CN145_WT':    [6.63,0.04],
     'CN145_T203F': [7.20,0.04],
@@ -75,10 +76,7 @@ for molec in range(numMols ) :
         continue
     solventFieldA = np.average(rxn_fieldA[20:]) + np.average(coloumb_fieldA[20:]) 
     solventFieldB = np.average(rxn_fieldB[20:]) + np.average(coloumb_fieldB[20:]) 
-    
-    stdA = np.std(rxn_fieldA[20:] + coloumb_fieldA[20:]) 
-    stdB = np.std(rxn_fieldB[20:] + coloumb_fieldB[20:]) 
-    data.append([molList[molec][1],solventFieldA, solventFieldB,stdA,stdB]) 
+    data.append([molList[molec][1],solventFieldA, solventFieldB]) 
 
 for molec in data : 
     try : 
@@ -90,13 +88,8 @@ for molec in data :
         continue
     #print molec[0],pKa
     ratio = 10**+(7.4 - pKa) 
-    wA = 1/(ratio + 1)
-    wB = ratio/(ratio + 1)
-    weightedF = molec[2] *wB + molec[1]*wA
-    weightedSTD = 0 
-    weightedSTD = np.sqrt(molec[3]**2/wA + molec[4]**2/wB ) 
+    weightedF = molec[2] * ratio/(ratio+1) + (1)/(ratio+1)*molec[1] 
     molec.append(weightedF) 
-    molec.append(weightedSTD)
 
 for item in data : print item 
 
@@ -121,16 +114,15 @@ stateToMarker = {
 } 
 
 with open('forces.dat','w') as f: 
-    f.write("Name      SolventFieldA   SolventFieldB    WeightedField    WeightedSTD\n") 
+    f.write("Name      SolventFieldA   SolventFieldB    WeightedField\n") 
 with open('forces.dat','a') as f : 
     for item in data : 
-        f.write("%s\t%f\t%f\t%f\t%f\n"%(item[0],item[1],item[2],item[5],item[6]) ) 
+        f.write("%s\t%f\t%f\t%f\n"%(item[0],item[1],item[2],item[3]) ) 
 
 names= np.genfromtxt('forces.dat',skip_header=1,usecols=0,dtype='str') 
 dataA= np.genfromtxt('forces.dat',skip_header=1,usecols=1) 
 dataB= np.genfromtxt('forces.dat',skip_header=1,usecols=2) 
 dataW= np.genfromtxt('forces.dat',skip_header=1,usecols=3) 
-dataS= np.genfromtxt('forces.dat',skip_header=1,usecols=4) 
 
 rc_file('../force_rc.rc') 
 fig1, axarr = plt.subplots(1,2,sharey='col') 
@@ -148,11 +140,9 @@ CN145, CN165 = [],[]
 for i in range(len(dataW)) : 
     if names[i][:5] == 'CN145' : 
         CN145.append([mutToExp[names[i]],dataW[i]])
-        #ax1.errorbar(mutToExp[names[i]],dataW[i],yerr=dataS[i],color=mutToColor[names[i][-1]],marker='o') 
         ax1.scatter(mutToExp[names[i]],dataW[i],color=mutToColor[names[i][-1]],marker='o') 
     if names[i][:5] == 'CN165' : 
         CN165.append([mutToExp[names[i]],dataW[i]])
-        #ax2.errorbar(mutToExp[names[i]],dataW[i],yerr=dataS[i],color=mutToColor[names[i][-1]],marker='o') 
         ax2.scatter(mutToExp[names[i]],dataW[i],color=mutToColor[names[i][-1]],marker='o') 
 
 CN145 = np.array(CN145) 
@@ -161,7 +151,7 @@ CN165 = np.array(CN165)
 x = np.arange(min(CN145[:,0]), max(CN145[:,0]),0.001 ) 
 slope, intercept, r_value, p_value, std_error = linregress(CN145[:,0],CN145[:,1]) 
 ax1.plot(x,x*slope + intercept,label="r = %.3f"%r_value) 
-ax1.legend(loc=4) 
+ax1.legend(loc=0) 
 #fig1.savefig('CN145.pdf',format='pdf') 
 
 x = np.arange(min(CN165[:,0]), max(CN165[:,0]),0.001)  
@@ -174,9 +164,6 @@ start, end = 2233.5, 2235.0 #ax2.get_xlim()
 #start, end = np.around(start,1), np.around(end,0) 
 print start, end 
 ax2.xaxis.set_ticks(np.arange(start,end,0.5) ) 
-
-#ax1.text(-0, 1, 'A', transform=ax1.transAxes, size=12) 
-#ax2.text(-0, 1, 'B', transform=ax2.transAxes, size=12) 
 
 fig1.savefig('forces.pdf',format='pdf') 
 

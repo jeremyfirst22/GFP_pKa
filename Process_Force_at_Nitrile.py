@@ -38,26 +38,21 @@ mutToExp = {
 'CN165_WT':2234.4
 }
 
-mutExppKa = { 
-'CN145_T203C':7.86, 
-'CN145_T203D':11.0, 
-'CN145_T203F':7.35, 
-'CN145_T203H':6.28, 
-'CN145_T203N':7.22, 
-'CN145_T203S':6.87, 
-'CN145_T203W':'NA', 
-'CN145_T203Y':8.04,
-'CN145_WT':6.84, 
-'CN165_T203C':7.60, 
-'CN165_T203D':11.0, 
-'CN165_T203F':7.52, 
-'CN165_T203H':6.66, 
-'CN165_T203N':7.43, 
-'CN165_T203S':6.73, 
-'CN165_T203W':'NA', 
-'CN165_T203Y':7.95,
-'CN165_WT':7.20 
-} 
+mutExppKa={
+'CN145_WT':    [6.63,0.04],
+'CN145_T203F': [7.20,0.04],
+'CN145_T203C': [7.86,0.04], 
+'CN145_T203H': [6.28,0.05], 
+'CN145_T203N': [7.22,0.04],
+'CN145_T203S': [6.88,0.07], 
+'CN145_T203Y': [7.95,0.04],
+'CN165_WT':    [7.17,0.03], 
+'CN165_T203F': [7.51,0.05], 
+'CN165_T203C': [7.65,0.04],  
+'CN165_T203H': [6.77,0.05], 
+'CN165_T203N': [7.42,0.06], 
+'CN165_T203S': [6.73,0.05], 
+'CN165_T203Y': [7.95,0.03]}
 
 molList = sorted(molList ) 
 numMols = len(molList) /2
@@ -87,7 +82,7 @@ for molec in range(numMols ) :
 
 for molec in data : 
     try : 
-        pKa = float(mutExppKa[molec[0]]) 
+        pKa = float(mutExppKa[molec[0]][0]) 
     except (KeyError, ValueError) : 
         print "%s pKa not found!"%molec[0]
         data.remove(molec) 
