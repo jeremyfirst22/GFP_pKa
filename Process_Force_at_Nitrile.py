@@ -151,6 +151,8 @@ for i in range(len(dataW)) :
         CN165.append([mutToExp[names[i]],dataW[i]])
         ax2.errorbar(mutToExp[names[i]],dataW[i],yerr=dataS[i],xerr=0.1,color=mutToColor[names[i][-1]],marker='o') 
 
+ax1.set_title("$p$CNF 145") 
+ax2.set_title("$p$CNF 165") 
 
 CN145 = np.array(CN145) 
 CN165 = np.array(CN165) 

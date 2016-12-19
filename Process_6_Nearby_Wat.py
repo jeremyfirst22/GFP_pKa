@@ -190,7 +190,7 @@ ax1.set_xlim(6.0,8.5)
 ax12 = ax1.twinx()
 mn, mx = ax1.get_ylim() 
 ax12.set_ylim((mn-8.2)*2.5*2.303, (mx-8.2)*2.5*2.303) 
-ax12.set_ylabel('ddG (kJ/mol)') 
+ax12.set_ylabel(r"$\Delta\Delta_a$G (kJ/mol)") 
 
 ax1.legend(loc=4) 
 fig1.savefig('6_Nearby_Wat_pKa.pdf', format='pdf') 

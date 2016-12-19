@@ -51,6 +51,7 @@ for ddGfile in glob.glob('*.ddG') :
 
     try : 
         exp = float(exp_pKas[molec][0]) 
+        expSTD=float(exp_pKas[molec][1]) 
     except KeyError : 
         print "Warning! %s not found in exp_data!"%molec
         continue 
@@ -58,7 +59,7 @@ for ddGfile in glob.glob('*.ddG') :
         print "Warning! %s has no experimental data"%molec
         continue 
 
-    data.append([molec, ddG, exp, dpKa]) 
+    data.append([molec, ddG, exp, dpKa,expSTD]) 
 data = np.array(data)
 
 mutToColor={
@@ -83,13 +84,16 @@ fig1 = plt.figure()
 ax1 = fig1.add_subplot(111) 
 
 for pt in range(len(data)) : 
-    ax1.scatter(data[pt,2],data[pt,3],marker=nitToMarker[data[pt,0][:5]],color=mutToColor[data[pt,0][-1:]], edgecolors='k') 
+    ax1.errorbar(np.float(data[pt,2]),np.float(data[pt,3]),xerr=np.float(data[pt,4]),marker=nitToMarker[data[pt,0][:5]],color=mutToColor[data[pt,0][-1:]])#edgecolors='k') 
 
-ax1.set_xlabel('Experimental (pKa)') 
-ax1.set_ylabel('Calculated pKa') 
+ax1.set_ylim(9.2,10.4)
+ax1.set_xlim(6.0, 8.5)
+
+ax1.set_xlabel(r"Experimental pK$_a$") 
+ax1.set_ylabel(r"Calculated pK$_a$") 
 ax1b = ax1.twinx() 
 mn, mx = ax1.get_ylim() ; ax1b.set_ylim((mn-8.2)*2.5*2.303, (mx-8.2)*2.5*2.303) 
-ax1b.set_ylabel('ddG (kJ/mol)') 
+ax1b.set_ylabel(r"$\Delta\Delta_a$G (kJ/mol)") 
 
 x = np.arange(np.min(data[:,2].astype(np.float)), np.max(data[:,2].astype(np.float)) ,0.01) 
 slope, intercept, r_value, p_value, std_err = linregress(data[:,2].astype(np.float), data[:,3].astype(np.float)) 
