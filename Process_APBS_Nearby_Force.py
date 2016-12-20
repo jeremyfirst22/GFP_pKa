@@ -141,7 +141,7 @@ ax2 = axarr[1]
 
 ax1.set_xlabel(r"Experimental frequency (cm$^{-1}$)")
 ax2.set_xlabel(r"Experimental frequency (cm$^{-1}$)")
-ax1.set_ylabel(r"Calculated Field (k$_b$T/$\AA$)") 
+ax1.set_ylabel(r"Calculated Field (k$_b$T/$e\AA$)") 
 
 
 CN145, CN165 = [],[]
