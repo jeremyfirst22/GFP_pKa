@@ -413,6 +413,32 @@ force_calc(){
     printf "\n" 
 }
 
+chi1_his148(){
+    printf "\t\tCalculation chi1 of H148......" 
+    if [[ ! -f chi1_his148/$MOLEC.angaver.xvg || ! -f chi1_his148/$MOLEC.angdist.xvg ]] ; then 
+        create_dir chi1_his148 
+        cd chi1_his148 
+    
+        N=`grep " N " ../Production/$MOLEC.production.nopbc.gro | grep " 147HIS" | awk '{print$3}'`
+        CA=`grep " CA" ../Production/$MOLEC.production.nopbc.gro | grep " 147HIS" | awk '{print$3}'`
+        CB=`grep " CB" ../Production/$MOLEC.production.nopbc.gro | grep " 147HIS" | awk '{print$3}'`
+        CG=`grep " CG" ../Production/$MOLEC.production.nopbc.gro | grep " 147HIS" | awk '{print$3}'`
+        echo "[ chi1_his148 ] " > chi1_his148.ndx 
+        echo "$N   $CA   $CB   $CG   " >> chi1_his148.ndx 
+        echo " " >> chi1_his148.ndx 
+        check chi1_his148.ndx 
+
+        gmx angle -f ../Production/$MOLEC.production.nopbc.xtc -type dihedral -n chi1_his148.ndx -od $MOLEC.angdist.xvg -ov $MOLEC.angaver.xvg >> $logFile 2>> $errFile 
+
+        check $MOLEC.angaver.xvg $MOLEC.angdist.xvg
+        clean
+        printf "Success\n" 
+        cd ../
+    else
+        printf "Skipped\n" 
+        fi 
+} 
+
 printf "\n\t\t*** Program Beginning $MOLEC***\n\n" 
 cd $MOLEC
 protein_min
@@ -424,6 +450,7 @@ if grep -sq CNF Production/$MOLEC.production.nopbc.gro ; then
     analyze_hbond_nit
     fi 
 analyze_hbond
+chi1_his148
 cd ../
 
 printf "\n\n\t\t*** Program Ending  $MOLEC***\n\n" 
