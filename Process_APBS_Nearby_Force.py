@@ -148,12 +148,14 @@ CN145, CN165 = [],[]
 for i in range(len(dataW)) : 
     if names[i][:5] == 'CN145' : 
         CN145.append([mutToExp[names[i]],dataW[i]])
-        ax1.errorbar(mutToExp[names[i]],dataW[i],xerr=0.1,yerr=dataS[i],color=mutToColor[names[i][-1]],marker='o') 
-        #ax1.scatter(mutToExp[names[i]],dataW[i],color=mutToColor[names[i][-1]],marker='o') 
+        #ax1.errorbar(mutToExp[names[i]],dataW[i],xerr=0.1,yerr=dataS[i],color=mutToColor[names[i][-1]],marker='o') 
+        ax1.errorbar(mutToExp[names[i]],dataW[i],xerr=0.1,color=mutToColor[names[i][-1]],marker='o') 
     if names[i][:5] == 'CN165' : 
         CN165.append([mutToExp[names[i]],dataW[i]])
-        ax2.errorbar(mutToExp[names[i]],dataW[i],xerr=0.1,yerr=dataS[i],color=mutToColor[names[i][-1]],marker='o') 
-        #ax2.scatter(mutToExp[names[i]],dataW[i],color=mutToColor[names[i][-1]],marker='o') 
+        #ax2.errorbar(mutToExp[names[i]],dataW[i],xerr=0.1,yerr=dataS[i],color=mutToColor[names[i][-1]],marker='o') 
+        ax2.errorbar(mutToExp[names[i]],dataW[i],xerr=0.1,color=mutToColor[names[i][-1]],marker='o') 
+
+ax2.set_xlim([2233.35,2234.55])
 
 CN145 = np.array(CN145) 
 CN165 = np.array(CN165) 

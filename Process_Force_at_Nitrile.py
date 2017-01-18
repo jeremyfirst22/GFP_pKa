@@ -146,10 +146,15 @@ CN145, CN165 = [],[]
 for i in range(len(dataW)) : 
     if names[i][:5] == 'CN145' : 
         CN145.append([mutToExp[names[i]],dataW[i]])
-        ax1.errorbar(mutToExp[names[i]],dataW[i],yerr=dataS[i],xerr=0.1,color=mutToColor[names[i][-1]],marker='o') 
+        #ax1.errorbar(mutToExp[names[i]],dataW[i],yerr=dataS[i],xerr=0.1,color=mutToColor[names[i][-1]],marker='o') 
+        ax1.errorbar(mutToExp[names[i]],dataW[i],xerr=0.1,color=mutToColor[names[i][-1]],marker='o') 
     if names[i][:5] == 'CN165' : 
         CN165.append([mutToExp[names[i]],dataW[i]])
-        ax2.errorbar(mutToExp[names[i]],dataW[i],yerr=dataS[i],xerr=0.1,color=mutToColor[names[i][-1]],marker='o') 
+        #ax2.errorbar(mutToExp[names[i]],dataW[i],yerr=dataS[i],xerr=0.1,color=mutToColor[names[i][-1]],marker='o') 
+        ax2.errorbar(mutToExp[names[i]],dataW[i],xerr=0.1,color=mutToColor[names[i][-1]],marker='o') 
+
+ax1.set_ylim([3,16]) 
+ax2.set_xlim([2233.35,2234.55]) 
 
 ax1.set_title("$p$CNF 145") 
 ax2.set_title("$p$CNF 165") 
