@@ -439,6 +439,33 @@ chi1_his148(){
         fi 
 } 
 
+sasa_cro(){
+    printf "\t\tAnalyzing SASA................" 
+    if [ ! -f sasa_cro/$MOLEC.sasa_cro.xvg ] ; then 
+        create_dir sasa_cro
+        cd sasa_cro
+    
+        echo "r CROa" > selection.dat
+        echo "q" >> selection.dat 
+        cat selection.dat | gmx make_ndx -f ../Production/$MOLEC.production.nopbc.gro -o cro.ndx >> $logFile 2>> $errFile 
+        check cro.ndx 
+
+        gmx sasa -s ../Production/$MOLEC.production.tpr -f ../Production/$MOLEC.production.nopbc.xtc \
+            -surface 'Protein' \
+            -output '"CROA"' \
+            -o $MOLEC.sasa_cro.xvg \
+            -tv $MOLEC.vol_cro.xvg \
+            -n cro.ndx >> $logFile 2>> $errFile 
+
+        check $MOLEC.sasa_cro.xvg
+        clean
+        printf "Success\n" 
+        cd ../
+    else
+        printf "Skipped\n" 
+        fi 
+} 
+
 printf "\n\t\t*** Program Beginning $MOLEC***\n\n" 
 cd $MOLEC
 protein_min
@@ -451,6 +478,7 @@ if grep -sq CNF Production/$MOLEC.production.nopbc.gro ; then
     fi 
 analyze_hbond
 chi1_his148
+sasa_cro
 cd ../
 
 printf "\n\n\t\t*** Program Ending  $MOLEC***\n\n" 
