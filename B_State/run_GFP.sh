@@ -328,17 +328,17 @@ force_calc(){
         fi 
     check $MOLEC.with_dummy.xtc
 
+    ## We use the initial configuration so that titration states are conserved (ie, at the end of the production run, pdb2gmx might assign a different titration state to a histidine, which causes it to fail. 
     if [ ! -s $MOLEC.with_dummy.gro ] ; then 
-        $FORCE_TOOLS/g_insert_dummy_atom -s $MOLEC.production.v4.tpr -f ../Production/$MOLEC.production.nopbc.gro -o $MOLEC.with_dummy.gro -a1 $CT -a2 $NH >> $logFile 2>> $errFile 
+        echo '1 0' | gmx trjconv -s ../Solvent_min/$MOLEC.minimize.tpr -f ../Solvate/$MOLEC.neutral.gro -center -ur compact -pbc mol -o $MOLEC.nopbc.gro >> $logFile 2>> $errFile 
+        check $MOLEC.nopbc.gro 
+
+        $FORCE_TOOLS/g_insert_dummy_atom -s $MOLEC.production.v4.tpr -f $MOLEC.nopbc.gro -o $MOLEC.with_dummy.gro -a1 $CT -a2 $NH >> $logFile 2>> $errFile 
         fi 
     check $MOLEC.with_dummy.gro 
 
     if [ ! -s $MOLEC.with_dummy.top ] ; then 
-        if [ "${MOLEC: -1}" == "H" ] ; then 
-            echo '0 1 1 1 1 1 0 0 1 0 1' | gmx pdb2gmx -f $MOLEC.with_dummy.gro -p $MOLEC.with_dummy.top -water tip3p -ff amber03 -his >> $logFile 2>> $errFile 
-        else 
-            echo '0 1 1 1 1 1 0 0 0 1' | gmx pdb2gmx -f $MOLEC.with_dummy.gro -p $MOLEC.with_dummy.top -water tip3p -ff amber03 -his >> $logFile 2>> $errFile 
-            fi 
+        gmx pdb2gmx -f $MOLEC.with_dummy.gro -p $MOLEC.with_dummy.top -water tip3p -ff amber03  >> $logFile 2>> $errFile 
         fi 
     check $MOLEC.with_dummy.top 
     
