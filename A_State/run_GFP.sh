@@ -222,7 +222,7 @@ analyze_hbond(){
             cat selection.dat | gmx make_ndx -f ../Production/$MOLEC.production.gro -o cnf_nh.ndx >> $logFile 2>> $errFile 
             check cnf_nh.ndx 
 
-            echo '18 14 18' | gmx hbond -f ../Production/$MOLEC.production.xtc -s ../Production/$MOLEC.production.tpr -n cnf_nh.ndx -shell 1 -r 0.3 -a 20 -num cnf_num.xvg >> $logFile 2>> $errFile 
+            echo '18 14 18' | gmx hbond -f ../Production/$MOLEC.production.xtc -s ../Production/$MOLEC.production.tpr -n cnf_nh.ndx -shell 1 -r 0.3 -a 20 -num cnf_num.xvg -life cnf.hblife.xvg -dist cnf.dist.xvg -ang cnf.ang.xvg >> $logFile 2>> $errFile 
             fi 
         check cnf_num.xvg 
         fi 
@@ -473,8 +473,8 @@ production_run
 if grep -sq CNF Production/$MOLEC.production.nopbc.gro ; then 
     force_calc
     analyze_hbond_nit
+    analyze_hbond
     fi 
-analyze_hbond
 chi1_his148
 #chi1_cnf
 sasa_cro

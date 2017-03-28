@@ -21,7 +21,6 @@ for index, file in enumerate(datafiles ):
 plt.show() 
 plt.close() 
 
-
 print "\t\t*** GMX HBond ***\n" 
 
 datafiles = glob.glob('?_State/*/HBond/cnf_num.xvg') 
