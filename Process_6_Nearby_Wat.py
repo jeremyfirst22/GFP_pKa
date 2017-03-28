@@ -131,7 +131,7 @@ for index,mut in enumerate(mutList):
         f.write("%14s\t%10f\t%10f\t%10f\t%10f\t%10s\t%10f\t%10f\n"%(mut, avg_dpKa, stdpKa, avg_ddG, stdddG, exp_pKas[mut][0],exp_pKas[mut][1],dpKa[0]) ) 
 
 ### Plotting
-rc_file('../pKa_rc.rc') 
+#rc_file('../pKa_rc.rc') 
 
 labels= np.genfromtxt('pKa.dat',skip_header=1,usecols = (0), dtype='str') 
 pKa   = np.genfromtxt('pKa.dat',skip_header=1,usecols = (1) ) 

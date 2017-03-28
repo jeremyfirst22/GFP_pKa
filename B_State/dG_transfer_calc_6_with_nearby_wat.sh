@@ -72,7 +72,7 @@ XTC=compress.xtc
 printf "\n\t*** pdb2pqr and APBS    ***\n\n" 
 index=0
 echo "group Protein || (group Water and same residue as within 0.5 of (resname CRBa and name OH)) " > selection.dat
-cat selection.dat | gmx select -s $TPR -f $XTC -on index.ndx 
+cat selection.dat | gmx select -s $TPR -f $XTC -on index.ndx >> $logFile 2>> $errFile 
 
 for frame in $(seq 0 $timeStep $tot) ; do 
     printf "\tReading %5i of %5i..." $frame $tot

@@ -149,10 +149,14 @@ for i in range(len(dataW)) :
     if names[i][:5] == 'CN145' : 
         CN145.append([mutToExp[names[i]],dataW[i]])
         #ax1.errorbar(mutToExp[names[i]],dataW[i],xerr=0.1,yerr=dataS[i],color=mutToColor[names[i][-1]],marker='o') 
+#        ax1.errorbar(mutToExp[names[i]],dataA[i],color='lightgrey',marker='D') 
+#        ax1.errorbar(mutToExp[names[i]],dataB[i],color='lightgrey',marker='^') 
         ax1.errorbar(mutToExp[names[i]],dataW[i],xerr=0.1,color=mutToColor[names[i][-1]],marker='o') 
     if names[i][:5] == 'CN165' : 
         CN165.append([mutToExp[names[i]],dataW[i]])
         #ax2.errorbar(mutToExp[names[i]],dataW[i],xerr=0.1,yerr=dataS[i],color=mutToColor[names[i][-1]],marker='o') 
+#        ax2.errorbar(mutToExp[names[i]],dataA[i],color='lightgrey',marker='D') 
+#        ax2.errorbar(mutToExp[names[i]],dataB[i],color='lightgrey',marker='^') 
         ax2.errorbar(mutToExp[names[i]],dataW[i],xerr=0.1,color=mutToColor[names[i][-1]],marker='o') 
 
 ax2.set_xlim([2233.35,2234.55])
@@ -163,7 +167,7 @@ CN165 = np.array(CN165)
 x = np.arange(min(CN145[:,0]), max(CN145[:,0]),0.001 ) 
 slope, intercept, r_value, p_value, std_error = linregress(CN145[:,0],CN145[:,1]) 
 ax1.plot(x,x*slope + intercept,label="r = %.3f"%r_value) 
-ax1.legend(loc=4) 
+ax1.legend(loc=1) 
 #fig1.savefig('CN145.pdf',format='pdf') 
 
 x = np.arange(min(CN165[:,0]), max(CN165[:,0]),0.001)  
