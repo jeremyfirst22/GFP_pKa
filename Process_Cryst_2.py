@@ -12,7 +12,7 @@ from matplotlib import rc_file
 
 
 if not os.path.isdir('cryst_2_pKas') : 
-    print "Directory cryst_pKas does not exist; Run Cryst_pKa.sh to generate data"
+    print "Directory cryst_2_pKas does not exist; Run Cryst_2_pKa.sh to generate data"
     exit() 
 else : 
     os.chdir('cryst_2_pKas') 
