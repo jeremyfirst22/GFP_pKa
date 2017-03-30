@@ -466,6 +466,36 @@ sasa_cro(){
         fi 
 } 
 
+rmsd(){
+    printf "\t\tCaluclation RMS Deviation....."
+    if [ ! -f rmsd/$MOLEC.crystal.xvg ] ; then 
+        create_dir rmsd
+        cd rmsd
+
+        if [ ! -f crystal.ndx ] ; then 
+            echo '4 && ri 3-230' > selection.dat 
+            echo 'q ' >> selection.dat 
+            
+            cat selection.dat | gmx make_ndx -f ../Production/$MOLEC.production.tpr -o crystal.ndx >> $logFile 2>> $errFile 
+            check crystal.ndx 
+            fi 
+        if [ ! -f $MOLEC.crystal.xvg ] ; then 
+            echo 'Backbone_&_r_3-230 Backbone_&_r_3-230' | gmx rms \
+                -s ../Production/$MOLEC.production.tpr \
+                -f ../Production/$MOLEC.production.nopbc.xtc \
+                -o $MOLEC.crystal.xvg \
+                -n crystal.ndx >> $logFile 2>> $errFile 
+            fi 
+
+        check $MOLEC.crystal.xvg 
+        clean 
+        printf "Success\n"
+        cd ../
+    else 
+        printf "Skipped\n"
+        fi 
+}
+
 printf "\n\t\t*** Program Beginning $MOLEC***\n\n" 
 cd $MOLEC
 protein_min
@@ -479,6 +509,7 @@ if grep -sq CNF Production/$MOLEC.production.nopbc.gro ; then
 analyze_hbond
 chi1_his148
 sasa_cro
+rmsd
 cd ../
 
 printf "\n\n\t\t*** Program Ending  $MOLEC***\n\n" 
