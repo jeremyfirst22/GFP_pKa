@@ -87,7 +87,7 @@ for pt in range(len(data)) :
 
 ax1.set_xlabel(r"Experimental pK$_a$") 
 ax1.set_ylabel(r"Calculated pK$_a$") 
-ax1.set_ylim([9.8,11.0]) 
+#ax1.set_ylim([9.8,11.0]) 
 ax1b = ax1.twinx() 
 mn, mx = ax1.get_ylim() ; ax1b.set_ylim((mn-8.2)*2.5*2.303, (mx-8.2)*2.5*2.303) 
 ax1b.set_ylabel(r"$\Delta\Delta$G (kJ/mol)") 

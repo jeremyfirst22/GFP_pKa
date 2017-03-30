@@ -86,7 +86,7 @@ ax1 = fig1.add_subplot(111)
 for pt in range(len(data)) : 
     ax1.errorbar(np.float(data[pt,2]),np.float(data[pt,3]),xerr=np.float(data[pt,4]),marker=nitToMarker[data[pt,0][:5]],color=mutToColor[data[pt,0][-1:]])#edgecolors='k') 
 
-ax1.set_ylim(9.2,10.4)
+#ax1.set_ylim(9.2,10.4)
 ax1.set_xlim(6.0, 8.5)
 
 ax1.set_xlabel(r"Experimental pK$_a$") 
