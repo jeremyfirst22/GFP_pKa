@@ -108,7 +108,7 @@ for frame in $(seq 0 $timeStep $tot) ; do
         awk '{if ($4 == "CRO") {$9 = "0.0000"} ; print }' time_${frame}_Protein+CRO.pqr > time_${frame}_Protein-CRO.pqr 
         check time_${frame}_Protein+CRO.pqr time_${frame}_Protein-CRO.pqr time_${frame}_cro.pqr
 
-        sed "s/file2.pqr/time_${frame}_Protein+CRO.pqr/" ../../free_energy_files/template.in > temp.in
+        sed "s/file2.pqr/time_${frame}_Protein+CRO.pqr/" ../../free_energy_files/20template.in > temp.in
         sed "s/file.pqr/time_${frame}_Protein+CRO.pqr/" temp.in > time_${frame}_Protein+CRO.in 
         sed "s/file.pqr/time_${frame}_Protein-CRO.pqr/" temp.in > time_${frame}_Protein-CRO.in 
         sed "s/file.pqr/time_${frame}_CRO.pqr/" temp.in > time_${frame}_CRO.in 
