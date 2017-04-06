@@ -143,6 +143,16 @@ ax1.set_xlabel(r"Experimental frequency (cm$^{-1}$)")
 ax2.set_xlabel(r"Experimental frequency (cm$^{-1}$)")
 ax1.set_ylabel(r"Calculated Field (k$_b$T/$e\AA$)") 
 
+aStateFig, aStateAxarr = plt.subplots(1,2,sharey='col') 
+bStateFig, bStateAxarr = plt.subplots(1,2,sharey='col') 
+
+aStateAxarr[0].set_xlabel(r"Experimental frequency (cm$^{-1}$)")
+aStateAxarr[1].set_xlabel(r"Experimental frequency (cm$^{-1}$)")
+aStateAxarr[0].set_ylabel(r"Calculated Field (k$_b$T/$e\AA$)") 
+
+bStateAxarr[0].set_xlabel(r"Experimental frequency (cm$^{-1}$)")
+bStateAxarr[1].set_xlabel(r"Experimental frequency (cm$^{-1}$)")
+bStateAxarr[0].set_ylabel(r"Calculated Field (k$_b$T/$e\AA$)") 
 
 CN145, CN165 = [],[]
 for i in range(len(dataW)) : 
@@ -152,12 +162,16 @@ for i in range(len(dataW)) :
 #        ax1.errorbar(mutToExp[names[i]],dataA[i],color='lightgrey',marker='D') 
 #        ax1.errorbar(mutToExp[names[i]],dataB[i],color='lightgrey',marker='^') 
         ax1.errorbar(mutToExp[names[i]],dataW[i],xerr=0.1,color=mutToColor[names[i][-1]],marker='o') 
+        aStateAxarr[0].errorbar(mutToExp[names[i]],dataA[i],xerr=0.1,color=mutToColor[names[i][-1]],marker='o') 
+        bStateAxarr[0].errorbar(mutToExp[names[i]],dataB[i],xerr=0.1,color=mutToColor[names[i][-1]],marker='o') 
     if names[i][:5] == 'CN165' : 
         CN165.append([mutToExp[names[i]],dataW[i]])
         #ax2.errorbar(mutToExp[names[i]],dataW[i],xerr=0.1,yerr=dataS[i],color=mutToColor[names[i][-1]],marker='o') 
 #        ax2.errorbar(mutToExp[names[i]],dataA[i],color='lightgrey',marker='D') 
 #        ax2.errorbar(mutToExp[names[i]],dataB[i],color='lightgrey',marker='^') 
         ax2.errorbar(mutToExp[names[i]],dataW[i],xerr=0.1,color=mutToColor[names[i][-1]],marker='o') 
+        aStateAxarr[1].errorbar(mutToExp[names[i]],dataA[i],xerr=0.1,color=mutToColor[names[i][-1]],marker='o') 
+        bStateAxarr[1].errorbar(mutToExp[names[i]],dataB[i],xerr=0.1,color=mutToColor[names[i][-1]],marker='o') 
 
 ax2.set_xlim([2233.35,2234.55])
 ax1.set_ylim([-14,-7]) 
@@ -165,6 +179,23 @@ ax2.set_ylim([-3.3, -1.3])
 
 ax1.set_title("$p$CNF 145") 
 ax2.set_title("$p$CNF 165") 
+
+aStateAxarr[0].set_title("$p$CNF 145") 
+aStateAxarr[1].set_title("$p$CNF 165") 
+
+aStateLabel = aStateAxarr[1].twinx() 
+aStateLabel.set_ylabel('A State',rotation=270,labelpad=15,fontsize='medium') 
+
+bStateLabel = bStateAxarr[1].twinx() 
+bStateLabel.set_ylabel('B State',rotation=270,labelpad=15,fontsize='medium') 
+
+#aStateAxarr[1].set_xlim([2233.35,2234.55])
+#aStateAxarr[0].set_ylim([-14,-7]) 
+#aStateAxarr[1].set_ylim([-3.3, -1.3]) 
+#
+#bStateAxarr[1].set_xlim([2233.35,2234.55])
+#bStateAxarr[0].set_ylim([-14,-7]) 
+#bStateAxarr[1].set_ylim([-3.3, -1.3]) 
 
 CN145 = np.array(CN145) 
 CN165 = np.array(CN165) 
@@ -185,11 +216,15 @@ start, end = 2233.5, 2235.0 #ax2.get_xlim()
 #start, end = np.around(start,1), np.around(end,0) 
 print start, end 
 ax2.xaxis.set_ticks(np.arange(start,end,0.5) ) 
+aStateAxarr[1].xaxis.set_ticks(np.arange(start,end,0.5) ) 
+bStateAxarr[1].xaxis.set_ticks(np.arange(start,end,0.5) ) 
 
 #ax1.text(-0, 1, 'A', transform=ax1.transAxes, size=12) 
 #ax2.text(-0, 1, 'B', transform=ax2.transAxes, size=12) 
 
 fig1.savefig('forces.pdf',format='pdf') 
+aStateFig.savefig('A_State_forces.pdf',format='pdf') 
+bStateFig.savefig('B_State_forces.pdf',format='pdf') 
 
 
 
