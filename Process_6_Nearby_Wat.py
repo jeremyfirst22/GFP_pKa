@@ -131,7 +131,7 @@ for index,mut in enumerate(mutList):
         f.write("%14s\t%10f\t%10f\t%10f\t%10f\t%10s\t%10f\t%10f\n"%(mut, avg_dpKa, stdpKa, avg_ddG, stdddG, exp_pKas[mut][0],exp_pKas[mut][1],dpKa[0]) ) 
 
 ### Plotting
-#rc_file('../pKa_rc.rc') 
+rc_file('../pKa_rc.rc') 
 
 labels= np.genfromtxt('pKa.dat',skip_header=1,usecols = (0), dtype='str') 
 pKa   = np.genfromtxt('pKa.dat',skip_header=1,usecols = (1) ) 
@@ -192,7 +192,7 @@ mn, mx = ax1.get_ylim()
 ax12.set_ylim((mn-8.2)*2.5*2.303, (mx-8.2)*2.5*2.303) 
 ax12.set_ylabel(r"$\Delta\Delta_a$G (kJ/mol)") 
 
-ax1.legend(loc=4) 
+ax1.legend(loc=2) 
 fig1.savefig('6_Nearby_Wat_pKa.pdf', format='pdf') 
 
 fig2 = plt.figure() 

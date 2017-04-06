@@ -25,7 +25,7 @@ fig.set_figheight(8)
 fig.set_figwidth(15) 
 fig.subplots_adjust(wspace=0) 
 fig.text(0.5, 0.04, "Time (ns)", ha='center', va='center') 
-fig.text(0.08, 0.50, "$\\frac{d}{dt}\\vec{F}$  $(\\frac{k_b T}{e^- \\AA})$", ha='center', va='center', rotation='vertical') 
+fig.text(0.08, 0.50, r"$\frac{d}{dt}\left < \vec{F} \right > \left (\frac{k_b T}{e^- \AA} \right )$ ", ha='center', va='center', rotation='vertical') 
 
 for index,molec in enumerate(molecList ) : 
     fileNameA="../A_State/%s/APBS_nearby_wat_force/rxn_field.out"%molec
@@ -56,19 +56,22 @@ for index,molec in enumerate(molecList ) :
         firstDB.append(rolAvgB[i+1]-rolAvgB[i])      
 
     ax = axarr[index/7, index%7] 
-    ax.plot(time,firstDA,color='b')
-    ax.plot(time,firstDB,color='g')
+    ax.plot(time,firstDA,color='b',label='A')
+    ax.plot(time,firstDB,color='g',label='B')
 
     ax.set_xlim([0,50]) 
-    ax.set_ylim([-1.5,1.5]) 
+    ax.set_ylim([-0.5,0.5]) 
     ax.set_title("%s"%molec) 
 
-    xticks = ax.xaxis.get_major_ticks() 
-    xticks[0].label1.set_visible(False) 
-    ax.set_xticks(np.arange(0,51,10))
+    if not index%7 == 0 : 
+        xticks = ax.xaxis.get_major_ticks() 
+        xticks[0].label1.set_visible(False) 
 
-plt.setp([a.get_xticklabels() for a in axarr[0,:]], visible=False) 
-plt.setp([a.get_yticklabels() for a in axarr[:,1]], visible=False) 
+#plt.setp([a.get_xticklabels() for a in axarr[0,:]], visible=False) 
+#plt.setp([a.get_yticklabels() for a in axarr[:,1]], visible=False) 
+
+plt.legend(loc='center left', bbox_to_anchor=(1, 1.10))
+
 plt.savefig("%s/firstDerivative.pdf"%dirName,format='pdf') 
 
 

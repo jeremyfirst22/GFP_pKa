@@ -160,6 +160,11 @@ for i in range(len(dataW)) :
         ax2.errorbar(mutToExp[names[i]],dataW[i],xerr=0.1,color=mutToColor[names[i][-1]],marker='o') 
 
 ax2.set_xlim([2233.35,2234.55])
+ax1.set_ylim([-14,-7]) 
+ax2.set_ylim([-3.3, -1.3]) 
+
+ax1.set_title("$p$CNF 145") 
+ax2.set_title("$p$CNF 165") 
 
 CN145 = np.array(CN145) 
 CN165 = np.array(CN165) 
@@ -173,7 +178,7 @@ ax1.legend(loc=1)
 x = np.arange(min(CN165[:,0]), max(CN165[:,0]),0.001)  
 slope, intercept, r_value, p_value, std_error = linregress(CN165[:,0],CN165[:,1]) 
 ax2.plot(x,x*slope + intercept,label="r = %.3f"%r_value) 
-ax2.legend(loc=4) 
+ax2.legend(loc=2) 
 #fig2.savefig('CN165.pdf',format='pdf') 
 
 start, end = 2233.5, 2235.0 #ax2.get_xlim() 
