@@ -73,6 +73,11 @@ for molec in range(numMols ) :
     except : 
         print molList[molec][1]
         continue
+    rxn_fieldA *= 2.4925  ## kB T / A -> MV / cm 
+    rxn_fieldB *= 2.4925 
+    coloumb_fieldA *= 2.4925 
+    coloumb_fieldB *= 2.4925 
+
     solventFieldA = np.average(rxn_fieldA[20:]) + np.average(coloumb_fieldA[20:]) 
     solventFieldB = np.average(rxn_fieldB[20:]) + np.average(coloumb_fieldB[20:]) 
     
@@ -141,18 +146,18 @@ ax2 = axarr[1]
 
 ax1.set_xlabel(r"Experimental frequency (cm$^{-1}$)")
 ax2.set_xlabel(r"Experimental frequency (cm$^{-1}$)")
-ax1.set_ylabel(r"Calculated Field (k$_b$T/$e\AA$)") 
+ax1.set_ylabel(r"Calculated Field (MV/cm)") 
 
 aStateFig, aStateAxarr = plt.subplots(1,2,sharey='col') 
 bStateFig, bStateAxarr = plt.subplots(1,2,sharey='col') 
 
 aStateAxarr[0].set_xlabel(r"Experimental frequency (cm$^{-1}$)")
 aStateAxarr[1].set_xlabel(r"Experimental frequency (cm$^{-1}$)")
-aStateAxarr[0].set_ylabel(r"Calculated Field (k$_b$T/$e\AA$)") 
+aStateAxarr[0].set_ylabel(r"Calculated Field (MV/cm)") 
 
 bStateAxarr[0].set_xlabel(r"Experimental frequency (cm$^{-1}$)")
 bStateAxarr[1].set_xlabel(r"Experimental frequency (cm$^{-1}$)")
-bStateAxarr[0].set_ylabel(r"Calculated Field (k$_b$T/$e\AA$)") 
+bStateAxarr[0].set_ylabel(r"Calculated Field (MV/cm)") 
 
 CN145, CN165 = [],[]
 for i in range(len(dataW)) : 
@@ -174,8 +179,8 @@ for i in range(len(dataW)) :
         bStateAxarr[1].errorbar(mutToExp[names[i]],dataB[i],xerr=0.1,color=mutToColor[names[i][-1]],marker='o') 
 
 ax2.set_xlim([2233.35,2234.55])
-ax1.set_ylim([-14,-7]) 
-ax2.set_ylim([-3.3, -1.3]) 
+ax1.set_ylim([-14*2.4925,-7*2.4925]) 
+ax2.set_ylim([-3.3*2.4925, -1.3*2.4925]) 
 
 ax1.set_title("$p$CNF 145") 
 ax2.set_title("$p$CNF 165") 
