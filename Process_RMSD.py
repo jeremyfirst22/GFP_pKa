@@ -71,3 +71,41 @@ for state in 'A_State','B_State' :
     
 plt.legend(loc='center left', bbox_to_anchor=(1, 1.75)) 
 plt.savefig("rmsd_plots/combined_rmsd.png",format='png') 
+plt.close() 
+
+f, axarr = plt.subplots(3,7,sharex='col',sharey='row') 
+f.set_figheight(8) 
+f.set_figwidth(15) 
+f.subplots_adjust(wspace=0) 
+f.text(0.5, 0.04, "Time (ns)", ha='center', va='center') 
+f.text(0.08, 0.50, r"RMSD ($\AA$)", ha='center', va='center', rotation='vertical') 
+
+for state in 'A_State','B_State' : 
+    for index, molec in enumerate(molList) : 
+        ax = axarr[index/7,index%7]
+        data_file = "%s/%s/%s/%s.crystal_barrel.xvg"%(state,molec, rmsd_dir, molec)  
+        try : 
+            data = np.genfromtxt(data_file,skip_header=16) 
+            data[:,0] = data[:,0] / 1000  ## ps -> ns 
+            data[:,1] = data[:,1] * 10 ## nm -> Ang
+            
+            if state == 'A_State' : 
+                ax.plot(data[:,0],data[:,1],color='b',label='A') 
+                ax.set_xlim([0,50]) 
+                ax.set_ylim([0,2.5])  
+                ax.set_title("%s"%molec) 
+
+                if not index%7 == 0 : 
+                    xticks = ax.xaxis.get_major_ticks()
+                    xticks[0].label1.set_visible(False)
+
+            elif state == 'B_State' : 
+                ax.plot(data[:,0],data[:,1],color='g',label='B') 
+            
+            print "%s\t%.2f\tSuccess!"%(molec,np.max(data[:,1]) ) 
+        except : 
+            print "%s\tFailed!"%molec
+            continue 
+    
+plt.legend(loc='center left', bbox_to_anchor=(1, 1.75)) 
+plt.savefig("rmsd_plots/combined_barrel.png",format='png') 

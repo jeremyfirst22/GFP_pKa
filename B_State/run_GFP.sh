@@ -468,7 +468,7 @@ sasa_cro(){
 
 rmsd(){
     printf "\t\tCaluclation RMS Deviation....."
-    if [ ! -f rmsd/$MOLEC.crystal.xvg ] ; then 
+    if [ ! -f rmsd/$MOLEC.crystal_barrel.xvg ] ; then 
         create_dir rmsd
         cd rmsd
 
@@ -488,6 +488,21 @@ rmsd(){
             fi 
 
         check $MOLEC.crystal.xvg 
+
+        if [ ! -f crystal_barrel.ndx ] ; then 
+            echo '4 && ri 12-225' > selection.dat 
+            echo 'q ' >> selection.dat 
+            
+            cat selection.dat | gmx make_ndx -f ../Production/$MOLEC.production.tpr -o crystal_barrel.ndx >> $logFile 2>> $errFile 
+            check crystal_barrel.ndx 
+            fi 
+        if [ ! -f $MOLEC.crystal_barrel.xvg ] ; then 
+            echo 'Backbone_&_r_12-225 Backbone_&_r_12-225' | gmx rms \
+                -s ../Production/$MOLEC.production.tpr \
+                -f ../Production/$MOLEC.production.nopbc.xtc \
+                -o $MOLEC.crystal_barrel.xvg \
+                -n crystal_barrel.ndx >> $logFile 2>> $errFile 
+            fi 
         clean 
         printf "Success\n"
         cd ../
